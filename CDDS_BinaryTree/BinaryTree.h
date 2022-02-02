@@ -51,3 +51,63 @@ private:
 };
 
 #endif
+
+template<typename T>
+inline BinaryTree<T>::BinaryTree()
+{
+}
+
+template<typename T>
+inline BinaryTree<T>::~BinaryTree()
+{
+}
+
+template<typename T>
+inline bool BinaryTree<T>::isEmpty() const
+{
+	return false;
+}
+
+template<typename T>
+inline void BinaryTree<T>::insert(T value)
+{
+}
+
+template<typename T>
+inline void BinaryTree<T>::remove(T value)
+{
+}
+
+template<typename T>
+inline TreeNode<T>* BinaryTree<T>::find(T value)
+{
+	return NULL;
+}
+
+template<typename T>
+inline void BinaryTree<T>::draw(TreeNode<T>* selected)
+{
+
+}
+
+template<typename T>
+inline void BinaryTree<T>::draw(TreeNode<T>* currentNode, int x, int y, int horizontalSpacing, TreeNode<T>* selected)
+{
+	horizontalSpacing /= 2;
+
+	if (currentNode)
+	{
+		if (currentNode->hasLeft())
+		{
+			DrawLine(x, y, x - horizontalSpacing, y + 80, RED);
+			draw(currentNode->getLeft(), x - horizontalSpacing, y + 80, horizontalSpacing, selected);
+		}
+
+		if (currentNode->hasRight())
+		{
+			DrawLine(x, y, x + horizontalSpacing, y + 80, RED);
+			draw(currentNode->getRight(), x + horizontalSpacing, y + 80, horizontalSpacing, selected);
+		}
+		currentNode->draw(x, y, (selected == currentNode));
+	}
+}
