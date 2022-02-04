@@ -32,7 +32,7 @@ public:
 	TreeNode<T>* getRight();
 
 	/// <summary>
-	/// Sets the value of the data this node is storing to be the given value
+	/// Sets the value of the data this node is storing to be the given value0
 	/// </summary>
 	/// <param name="value">The value to change the data to</param>
 	void setData(T value);
@@ -58,10 +58,7 @@ private:
 	TreeNode<T>* m_right;
 };
 
-template<typename T>
-inline void TreeNode<T>::setRight(TreeNode<T>* node)
-{
-}
+
 
 template<typename T>
 inline void TreeNode<T>::draw(int x, int y, bool selected)
@@ -88,27 +85,33 @@ inline void TreeNode<T>::draw(int x, int y, bool selected)
 template<typename T>
 inline TreeNode<T>::TreeNode(T value)
 {
+	getData() = value;
 }
 
 template<typename T>
 inline bool TreeNode<T>::hasLeft()
 {
 	
-	if(getLeft() = NULL)
-	return false;
+	if (getLeft() == NULL)
+		return false;
+	else
+		return true;
 }
 
 template<typename T>
 inline bool TreeNode<T>::hasRight()
 {
-	if (getRight() = NULL)
-	return false;
+	if (getRight() == NULL)
+		return false;
+
+	else
+		return true;
 }
 
 template<typename T>
 inline T TreeNode<T>::getData()
 {
-	return T();
+	
 }
 
 template<typename T>
@@ -126,9 +129,17 @@ inline TreeNode<T>* TreeNode<T>::getRight()
 template<typename T>
 inline void TreeNode<T>::setData(T value)
 {
+	m_value = value;
 }
 
 template<typename T>
 inline void TreeNode<T>::setLeft(TreeNode<T>* node)
 {
+	setData = node;
+}
+
+template<typename T>
+inline void TreeNode<T>::setRight(TreeNode<T>* node)
+{
+	setData = node;
 }
