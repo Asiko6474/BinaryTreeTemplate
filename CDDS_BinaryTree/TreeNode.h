@@ -120,7 +120,7 @@ inline bool TreeNode<T>::hasRight()
 template<typename T>
 inline T TreeNode<T>::getData()
 {
-	
+	return m_value;
 }
 
 template<typename T>
