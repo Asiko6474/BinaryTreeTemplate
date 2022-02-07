@@ -4,7 +4,7 @@ template<typename T>
 class TreeNode
 {
 public:
-	TreeNode() {};
+	TreeNode() ;
 	TreeNode(T value);
 	~TreeNode() {};
 
@@ -83,16 +83,25 @@ inline void TreeNode<T>::draw(int x, int y, bool selected)
 }
 
 template<typename T>
+inline TreeNode<T>::TreeNode()
+{
+	m_left = nullptr;
+	m_right = nullptr;
+}
+
+template<typename T>
 inline TreeNode<T>::TreeNode(T value)
 {
-	getData() = value;
+	m_value = value;
+	m_left = nullptr;
+	m_right = nullptr;
 }
 
 template<typename T>
 inline bool TreeNode<T>::hasLeft()
 {
 	
-	if (getLeft() == NULL)
+	if (getLeft() == nullptr)
 		return false;
 	else
 		return true;
@@ -101,7 +110,7 @@ inline bool TreeNode<T>::hasLeft()
 template<typename T>
 inline bool TreeNode<T>::hasRight()
 {
-	if (getRight() == NULL)
+	if (getRight() == nullptr)
 		return false;
 
 	else

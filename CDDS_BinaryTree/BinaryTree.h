@@ -54,12 +54,17 @@ private:
 template<typename T>
 inline bool BinaryTree<T>::isEmpty() const
 {
-	return false;
+
+	if (m_root->getLeft() == nullptr && m_root->getRight() == nullptr)
+		return true;
+	else
+		return false;
 }
 
 template<typename T>
 inline void BinaryTree<T>::insert(T value)
 {
+
 }
 
 template<typename T>
@@ -71,6 +76,12 @@ template<typename T>
 inline void BinaryTree<T>::draw(TreeNode<T>* selected)
 {
 	draw(m_root, 400, 40, 400, selected);
+}
+
+template<typename T>
+inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent)
+{
+	return false;
 }
 
 template<typename T>
