@@ -10,7 +10,7 @@ class BinaryTree
 {
 public:
 
-	BinaryTree() {};
+	BinaryTree() { m_root = nullptr; }
 	~BinaryTree() {};
 
 	/// <summary>
@@ -63,29 +63,39 @@ inline bool BinaryTree<T>::isEmpty() const
 template<typename T>
 inline void BinaryTree<T>::insert(T value)
 {
-	TreeNode<T>* m_newRoot = new TreeNode<T>(value);
+	TreeNode<T>* newRoot = new TreeNode<T>(value);
+	TreeNode<T>* currentNode = m_root;
 
-	if (m_root > m_newRoot) 
+	if (m_root == nullptr)
+		m_root = newRoot;
+
+	if (newRoot->getData() < currentNode->getData())
 	{
-		while (m_root->hasLeft())
+		if (currentNode->hasLeft())
 		{
-			(TreeNode<T>*)m_root->getLeft()->getData() > m_newRoot;
-			if (m_root->hasLeft() == NULL)
-				m_root->getLeft() == m_newRoot;
-			insert(value);
+			currentNode = currentNode->getLeft();
 		}
+		else
+		{
+			currentNode->setLeft(newRoot);
+		}
+		return;
 	}
-	if (m_root < m_newRoot) 
+
+	if (newRoot->getData() > currentNode->getData())
 	{
-		while (m_root->hasRight())
+		if (currentNode->hasRight())
 		{
-			(TreeNode<T>*)m_root->getRight()->getData() > m_newRoot;
-			if (m_root->hasRight() == NULL)
-				m_root->getRight() == m_newRoot;
-			insert(value);
+			currentNode = currentNode->getRight();
 		}
+		else
+		{
+			currentNode->setRight(newRoot);
+		}
+		return;
 	}
 }
+
 
 template<typename T>
 inline void BinaryTree<T>::remove(T value)
@@ -149,18 +159,18 @@ inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, Tree
 	while (searchValue != nodeFound)
 	{
 		if (searchValue > nodeFound) {
-			nodeFound->getLeft;
+			nodeFound->getLeft();
 			nodeParent = nodeFound;
-			nodeFound = nodeParent->getLeft;
+			nodeFound = nodeParent->getLeft();
 		}
 		if (searchValue < nodeFound) {
-			nodeFound->getRight;
+			nodeFound->getRight();
 			nodeParent = nodeFound;
-			nodeFound = nodeParent->getRight;
+			nodeFound = nodeParent->getRight();
 		}
 		else if (searchValue == nodeFound)
 		{
-			nodeParent->getLeft = nodeFound;
+			nodeParent->getLeft() = nodeFound;
 			searchValue == nodeFound;
 		}
 	}
