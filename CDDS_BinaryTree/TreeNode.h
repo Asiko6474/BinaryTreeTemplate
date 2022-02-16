@@ -100,21 +100,21 @@ inline TreeNode<T>::TreeNode(T value)
 template<typename T>
 inline bool TreeNode<T>::hasLeft()
 {
-	if (m_left == nullptr)
-		return false;
+	if (m_left)
+		return true;
 
 	else
-		return true;
+		return false;
 }
 
 template<typename T>
 inline bool TreeNode<T>::hasRight()
 {
-	if (m_right == nullptr)
-		return false;
+	if (m_right)
+		return true;
 
 	else
-		return true;
+		return NULL;
 }
 
 template<typename T>
@@ -122,28 +122,29 @@ inline T TreeNode<T>::getData()
 {
 	if (m_value != NULL)
 		return m_value;
+
 	else
 		return NULL;
+
 }
 
 template<typename T>
 inline TreeNode<T>* TreeNode<T>::getLeft()
 {
-	if (hasLeft() == true)
+	if (hasLeft())
 		return m_left;
 	else
-		return nullptr;
+		return NULL;
 
 }
 
 template<typename T>
 inline TreeNode<T>* TreeNode<T>::getRight()
 {
-
-	if (hasRight() == true)
+	if (hasRight())
 		return m_right;
 	else
-		return nullptr;
+		return NULL;
 
 }
 

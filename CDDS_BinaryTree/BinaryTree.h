@@ -54,45 +54,79 @@ private:
 template<typename T>
 inline bool BinaryTree<T>::isEmpty() const
 {
-	if (m_root->getLeft() == nullptr && m_root->getRight() == nullptr)
+	//If the root is Null
+	if (m_root == nullptr)
 		return true;
-	else
-		return false;
+
+	//if the root has no left
+	if (m_root->hasLeft() = false)
+		return true;
+
+	//if the root has no right
+	if (m_root->hasRight() = false)
+		return true;
+
+	return false;
 }
 
 template<typename T>
 inline void BinaryTree<T>::insert(T value)
 {
 	TreeNode<T>* newRoot = new TreeNode<T>(value);
+	//if the root is null
+	if (m_root == nullptr)
+	{
+		//assign the root a value.
+		m_root = newRoot;
+	}
+	
+	bool isSorting = true;
 	TreeNode<T>* currentNode = m_root;
 
-	if (m_root == nullptr)
-		m_root = newRoot;
 
-	if (newRoot->getData() < currentNode->getData())
+	while (isSorting)
 	{
-		if (currentNode->hasLeft())
+		//if the new root is less than the current node
+		if (newRoot->getData() < currentNode->getData())
 		{
-			currentNode = currentNode->getLeft();
+			//if the current node has a left
+			if (currentNode->hasLeft())
+			{
+				//the current node will be left
+				currentNode = currentNode->getLeft();
+			}
+			//if the current node does not have a left
+			else
+			{
+				//the new root will be the new left. 
+				currentNode->setLeft(newRoot);
+				isSorting = false;
+			}
+		
 		}
-		else
-		{
-			currentNode->setLeft(newRoot);
-		}
-		return;
-	}
 
-	if (newRoot->getData() > currentNode->getData())
-	{
-		if (currentNode->hasRight())
+		//if the new root is less than the current node
+		if (newRoot->getData() > currentNode->getData())
 		{
-			currentNode = currentNode->getRight();
+			//if the current node has a right
+			if (currentNode->hasRight())
+			{
+				//the current node will be right
+				currentNode = currentNode->getRight();
+			}
+			//if there is no right
+			else
+			{
+				//the new root will be the new right.
+				currentNode->setRight(newRoot);
+				isSorting = false;
+			}
+			
 		}
-		else
-		{
-			currentNode->setRight(newRoot);
-		}
-		return;
+		//if the new root is the same value as the current node
+		if (newRoot->getData() == currentNode->getData())
+			//stop sorting/do nothing
+			isSorting = false;
 	}
 }
 
@@ -100,51 +134,162 @@ inline void BinaryTree<T>::insert(T value)
 template<typename T>
 inline void BinaryTree<T>::remove(T value)
 {
-	if (m_root->hasLeft() != true)
-	{
-		for (T i = m_root->getLeft()->getData(); i != value; i++)
-		{
-			if (i == value)
-			{
-				
-				i = value;
-				
-			}
-		}
-	}
+	TreeNode<T>* currentNode = nullptr;
+	TreeNode<T>* nodeRemove = nullptr;
+	TreeNode<T>* parentNode = nullptr;
+
+	if (!findNode(value, nodeRemove, parentNode))
+		return;
 	
-	if (m_root->hasRight() != true)
+	if (nodeRemove->hasRight())
 	{
-		for (T i = m_root->getRight()->getData(); i != value; i++)
+		
+		currentNode = nodeRemove->getRight();
+		
+		if (currentNode->hasLeft())
 		{
 			
-			if (i == value)
+			parentNode = currentNode;
+
+			bool searching = true;
+			
+			while (searching)
 			{
-				i = value;
 				
+				if (m_root != NULL)
+				{
+					
+					if (parentNode->getLeft()->hasLeft())
+					{
+						
+						parentNode = parentNode->getLeft();
+					}
+					
+					else
+					{
+						
+						currentNode = parentNode->getLeft();
+						
+						searching = false;
+					}
+
+				}
+			}
+			
+			nodeRemove->setData(currentNode->getData());
+			
+			parentNode->setLeft(currentNode->getRight());
+			
+			delete currentNode;
+
+		}
+		else {
+			
+			nodeRemove->setData(currentNode->getData());
+
+			
+			if (currentNode->hasRight()) {
+				
+				nodeRemove->setRight(currentNode->getRight());
+			}
+			
+			else nodeRemove->setRight(nullptr);
+			
+			delete currentNode;
+		}
+
+	}
+	else
+	{
+		
+		if (parentNode)
+		{
+			
+			if (nodeRemove->hasLeft())
+			{
+				
+				currentNode = nodeRemove->getLeft();
+
+				
+				if (parentNode->getLeft() == nodeRemove)
+					parentNode->setLeft(currentNode);
+
+				
+				else if (parentNode->getRight() == nodeRemove)
+					parentNode->setRight(currentNode);
+				
+				delete nodeRemove;
+				return;
+			}
+			else
+			{
+				if (parentNode->getLeft() == nodeRemove)
+					parentNode->setLeft(nullptr);
+				else if (parentNode->getRight() == nodeRemove)
+					parentNode->setRight(nullptr);
+
+				else nodeRemove;
 			}
 		}
-	}
-
-	if (m_root->hasLeft() && m_root->hasLeft() != true)
-	{
-		for (T i = m_root->getRight()->getData(); i != value; i++)
+		
+		else
 		{
-			for (T c = m_root->getLeft()->getData(); i != value; c++)
-				if (i == value)
-				{
-					i = value;
-				}
+			
+			if (nodeRemove->hasLeft())
+			{
+				
+				currentNode = nodeRemove->getLeft();
+				
+				m_root = currentNode;
+				
+				delete nodeRemove;
+				return;
+			}
+
+			else
+			{
+				
+				delete nodeRemove;
+				
+				m_root = nullptr;
+			}
 		}
+		
+		delete currentNode;
 	}
 }
 
 template<typename T>
 inline TreeNode<T>* BinaryTree<T>::find(T value)
 {
-	for (T i = m_root->getData(); i != value;)
-		if (i == value)
-			return  (TreeNode<T>*) value;
+	bool searching = true;
+	TreeNode<T>* currentNode = m_root;
+
+
+	while (searching)
+	{
+		
+		if (value > currentNode->getData())
+		{
+			
+			if (currentNode->hasRight())
+				currentNode = currentNode->getRight();
+			else
+				break;
+		}
+		else if (value < currentNode->getData())
+		{
+			
+			if (currentNode->hasLeft())
+				currentNode = currentNode->getLeft();
+			else
+				break;
+		}
+		else if (value == currentNode->getData())
+			return currentNode;
+	}
+	
+	return NULL;
 }
 
 template<typename T>
@@ -156,24 +301,60 @@ inline void BinaryTree<T>::draw(TreeNode<T>* selected)
 template<typename T>
 inline bool BinaryTree<T>::findNode(T searchValue, TreeNode<T>*& nodeFound, TreeNode<T>*& nodeParent)
 {
-	while (searchValue != nodeFound)
+	bool search = true;
+	TreeNode<T>* currentNode = m_root;
+	TreeNode<T>* currentParent = m_root;
+	while (search)
 	{
-		if (searchValue > nodeFound) {
-			nodeFound->getLeft();
-			nodeParent = nodeFound;
-			nodeFound = nodeParent->getLeft();
-		}
-		if (searchValue < nodeFound) {
-			nodeFound->getRight();
-			nodeParent = nodeFound;
-			nodeFound = nodeParent->getRight();
-		}
-		else if (searchValue == nodeFound)
+		
+		if (searchValue > currentNode->getData())
 		{
-			nodeParent->getLeft() = nodeFound;
-			searchValue == nodeFound;
+			
+			if (currentNode->hasRight())
+			{
+				
+				currentParent = currentNode;
+				currentNode = currentParent->getRight();
+			}
+			else
+			{
+				break;
+			}
+
+		}
+		else if (searchValue < currentNode->getData())
+		{
+			
+			if (currentNode->hasLeft())
+			{
+				currentParent = currentNode;
+				currentNode = currentParent->getLeft();
+			}
+			else
+			{
+				break;
+			}
+		}
+
+		else if (searchValue == currentNode->getData())
+		{
+			nodeFound = currentNode;
+
+			if (currentParent->getData() == nodeFound->getData())
+			{
+				
+				nodeParent == nullptr;
+			}
+			else
+			{
+				
+				nodeParent = currentParent;
+			}
+			return true;
 		}
 	}
+
+	return false;
 }
 
 template<typename T>
